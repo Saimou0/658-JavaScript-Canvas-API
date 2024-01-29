@@ -28,8 +28,19 @@ export class Player {
         this.x += this.vx * deltaTime;
 
         this.gameAreaCollision();
+
+        this.verticalMovement(input, platforms);
         
-        // Vertikaali liike
+        if(!this.onGround(platforms)) {
+            this.vy += this.weight;
+            console.log("EI MAASSA " + this.vy);
+        } else {
+            this.vy = 0;
+        }
+        
+    }
+
+    verticalMovement(input, platforms) {
         this.y += this.vy;
         for(let platform of platforms) {
             if(input.includes('w') && this.onGround(platform) || input.includes('w') && this.onPlatform(platform)){
@@ -42,14 +53,6 @@ export class Player {
             }
 
         }
-        
-        if(!this.onGround(platforms)) {
-            this.vy += this.weight;
-            console.log("EI MAASSA " + this.vy)
-        } else {
-            this.vy = 0;
-        }
-        
     }
 
     onPlatform(platform) {
@@ -144,8 +147,8 @@ export class Player {
         this.movement(input, deltaTime, platforms);
 
         for(let platform of platforms) {
-            if(this.handleCollision(platform)) {
-                this.player.handleCollision(platform);
+            if(this.checkCollision(platform)) {
+                this.handleCollision(platform);
                 break;
             }
 
