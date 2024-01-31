@@ -4,6 +4,9 @@ export class Player {
         this.width = 74;
         this.height = 96;
 
+        // Original width and height 
+        // Width: 74, Height: 96
+
         this.x = 0;
         this.y = game.height - this.height - this.game.groundMargin;
         this.vx = 0;
@@ -23,6 +26,10 @@ export class Player {
             this.vx = -this.maxSpeed;
         } else {
             this.vx = 0;
+        }
+
+        if(input.includes(' ')) {
+            console.log("LEVEYS: " + this.game.width + "KORKEUS: " + this.game.height);
         }
 
         this.x += this.vx * deltaTime;
@@ -90,6 +97,24 @@ export class Player {
             this.y = this.game.height - this.height - this.game.groundMargin;
             // this.vy = 0;
         }
+
+        if(this.y >= this.game.height - this.game.groundMargin) {
+            this.y = this.game.height - this.game.groundMargin;
+        }
+
+        // yläreuna
+        if(this.y <= 50) {
+            this.y = 50;
+            this.vy = 0;
+        }
+    }
+
+    checkGoal(goal) {
+        if(!(this.x + this.width < goal.x || this.x > goal.x + goal.width || this.y + this.height < goal.y || this.y > goal.y + goal.height)) {
+            console.log("GOAL");
+            return true;
+        }
+        return false;
     }
 
     checkCollision(platform) {
@@ -143,9 +168,10 @@ export class Player {
 
     }
 
-    update(input, deltaTime, platforms) {
+    update(input, deltaTime, platforms, goal) {
         this.movement(input, deltaTime, platforms);
 
+        this.checkGoal(goal)
         for(let platform of platforms) {
             if(this.checkCollision(platform)) {
                 this.handleCollision(platform);
