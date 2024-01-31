@@ -1,4 +1,4 @@
-export class Platform {
+export class Goal {
     constructor (game, x, y, width, height) {
         this.game = game;
         this.x = x;
@@ -22,7 +22,7 @@ export class Platform {
     draw(context) {
         this.traceOutline(context);
 
-        context.fillStyle = 'black';
+        context.fillStyle = 'red';
         context.fillRect(this.x, this.y, this.width, this.height);
     }
 
