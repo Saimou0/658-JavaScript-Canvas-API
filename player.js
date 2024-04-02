@@ -28,9 +28,6 @@ export class Player {
             this.vx = 0;
         }
 
-        if(input.includes(' ')) {
-            console.log("LEVEYS: " + this.game.width + "KORKEUS: " + this.game.height);
-        }
 
         this.x += this.vx * deltaTime;
 
@@ -105,7 +102,6 @@ export class Player {
         // yläreuna
         if(this.y <= 50) {
             this.y = 50;
-            this.vy = 0;
         }
     }
 

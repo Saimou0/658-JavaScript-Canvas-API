@@ -3,8 +3,6 @@ import { InputHandler } from './inputHandler.js';
 import { Platform } from './platform.js';
 import { Goal } from './goal.js';
 
-// https://stackoverflow.com/questions/67758479/how-to-fit-html-canvas-to-screen-while-maintaining-aspect-ratio-and-not-cutting
-
 window.addEventListener('load', function() {
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
@@ -13,34 +11,30 @@ window.addEventListener('load', function() {
 
     class Game {
         constructor(width, height) {
-            this.aspectRatio = 16 / 9;
             this.width = width;
             this.height = height;
             this.groundMargin = 50;
             this.sideMargin = 20;
 
-            if(this.width / this.height > this.aspectRatio) {
-                this.width = this.height * this.aspectRatio;
-            }
-
-            if(this.width / this.height < this.aspectRatio) {
-                this.height = this.width / this.aspectRatio;
-            }
 
             this.InputHandler = new InputHandler();
             this.player = new Player(this);
 
             
             
-            // luo tasoja
+            // Create platforms
             this.platforms = [
-                new Platform(this, 400, 663, 100, 217),
-                new Platform(this, 600, 600, 20, 100),
-                new Platform(this, 800, 600, 20, 100),
-                new Platform(this, 900, 500, 20, 100),
+                new Platform(this, 0.3, 0.715, 0.07, 0.23),
+                new Platform(this,  0.45, 0.056, 0.1, 0.66),
+                new Platform(this,  0.67, 0.214, 0.1, 0.5),
+                new Platform(this, 0.63, 0.715, 0.07, 0.23),
+                
+                // Ledges
+                new Platform(this, 0.551, 0.50, 0.05, 0.02),
+                new Platform(this, 0.619, 0.3, 0.05, 0.02),
             ];
 
-            this.goal = new Goal(this, 400, 500, 100, 100);
+            this.goal = new Goal(this, 0.70, 0.715, 0.067, 0.23);
         }
 
         update(deltaTime) {

@@ -1,10 +1,10 @@
 export class Platform {
     constructor (game, x, y, width, height) {
         this.game = game;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.x = x * this.game.width;
+        this.y = y * this.game.height;
+        this.width = width * this.game.width;
+        this.height = height * this.game.height;
     }
     
     traceOutline(context) {

@@ -1,10 +1,10 @@
 export class Goal {
     constructor (game, x, y, width, height) {
         this.game = game;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.x = x * this.game.width;
+        this.y = y * this.game.height;
+        this.width = width * this.game.width;
+        this.height = height * this.game.height;
     }
     
     traceOutline(context) {
@@ -22,7 +22,7 @@ export class Goal {
     draw(context) {
         this.traceOutline(context);
 
-        context.fillStyle = 'red';
+        context.fillStyle = 'green';
         context.fillRect(this.x, this.y, this.width, this.height);
     }
 
