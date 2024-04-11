@@ -15,6 +15,8 @@ export class Player {
         
         this.maxSpeed = 0.5;
 
+        this.deathCount = 0;
+
         this.image = document.getElementById('player');
     }
 
@@ -28,10 +30,10 @@ export class Player {
             this.vx = 0;
         }
 
-
         this.x += this.vx * deltaTime;
 
         this.gameAreaCollision();
+        // this.handleCollision(platforms);
 
         this.verticalMovement(input, platforms);
         
@@ -59,25 +61,6 @@ export class Player {
         }
     }
 
-    onPlatform(platform) {
-        if(this.y + this.height >= platform.y && this.y + this.height <= platform.y + platform.height && this.x + this.width > platform.x && this.x < platform.x + platform.width) {
-            console.log("On platform")
-            if(this.maxOverlapAxis(platform) === 'y') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    onGround() {
-        if(this.y >= this.game.height - this.height - this.game.groundMargin) {
-            return true;
-        }
-
-        return false;
-    }
-
     gameAreaCollision() {
         // Oikea reuna
         if(this.x <= this.game.sideMargin) {
@@ -92,7 +75,6 @@ export class Player {
         // Alareuna
         if(this.y >= this.game.height - this.height -this.game.groundMargin) {
             this.y = this.game.height - this.height - this.game.groundMargin;
-            // this.vy = 0;
         }
 
         if(this.y >= this.game.height - this.game.groundMargin) {
@@ -100,30 +82,51 @@ export class Player {
         }
 
         // yläreuna
-        if(this.y <= 50) {
+        if(this.y < 50) {
+            this.vy = 0;
             this.y = 50;
         }
     }
 
-    checkGoal(goal) {
-        if(!(this.x + this.width < goal.x || this.x > goal.x + goal.width || this.y + this.height < goal.y || this.y > goal.y + goal.height)) {
-            console.log("GOAL");
-            return true;
-        }
-        return false;
-    }
-
-    checkCollision(platform) {
-        if(!(this.x + this.width < platform.x || this.x > platform.x + platform.width || this.y + this.height < platform.y || this.y > platform.y + platform.height)) {
+    // Ground, platform and goal collision detection
+    onGround() {
+        if(this.y >= this.game.height - this.height - this.game.groundMargin) {
             return true;
         }
 
         return false;
     }
 
+    onPlatform(platform) {
+        if(this.y + this.height >= platform.y && this.y + this.height <= platform.y + platform.height && this.x + this.width > platform.x && this.x < platform.x + platform.width) {
+            console.log("On platform")
+            if(this.maxOverlapAxis(platform) === 'y') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    checkCollision(object) {
+        if(!(this.x + this.width < object.x || this.x > object.x + object.width || this.y + this.height < object.y || this.y > object.y + object.height)) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    maxOverlapAxis(object) {
+        let overlapX = Math.min(this.x + this.width - object.x, object.x + object.width - this.x);
+        let overlapY = Math.min(this.y + this.height - object.y, object.y + object.height - this.y);
+
+        return overlapX < overlapY ? 'x' : 'y';
+
+    }
+
+    // Platform collision handling
     handleCollision(platform) {
         if(this.checkCollision(platform)) {
-
             if(this.maxOverlapAxis(platform) === 'x') {
                 if(this.x + this.width - platform.x < platform.x + platform.width - this.x) {
                     this.x = platform.x - this.width;
@@ -135,45 +138,49 @@ export class Player {
                     this.y = platform.y - this.height;
                     this.vy = 0;
                 } else {
-                    this.y = platform.y + platform.height;
+                    this.y = platform.y + platform.height;   
                 }
             }
-
         }
-
         // Player can clip to the top of the platform if the platform is 8 pixels abobe the player y + height.
     }
 
-    maxOverlapAxis(platform) {
-        let overlapX = Math.min(this.x + this.width - platform.x, platform.x + platform.width - this.x);
-        let overlapY = Math.min(this.y + this.height - platform.y, platform.y + platform.height - this.y);
+    handleSpikeCollision(spike) {
+        if(this.checkCollision(spike)) {
+            this.x = 0;
+            this.y = this.game.height - this.height - this.game.groundMargin;
+            this.deathCount++;
+        }
+    }
 
-        return overlapX < overlapY ? 'x' : 'y';
-
+    handleGoalCollision(goal) {
+        if(this.checkCollision(goal)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     draw(context) {
         context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
 
         // Piirtää pelaajan rajat
-        context.beginPath();
-        context.rect(this.x, this.y, this.width, this.height);
-        context.lineWidth = 2;
-        context.strokeStyle = 'red';
-        context.stroke();
-
+        // context.beginPath();
+        // context.rect(this.x, this.y, this.width, this.height);
+        // context.lineWidth = 2;
+        // context.strokeStyle = 'red';
+        // context.stroke();
     }
 
-    update(input, deltaTime, platforms, goal) {
+    update(input, deltaTime, platforms, goal, spikes) {
         this.movement(input, deltaTime, platforms);
+        // Handle the collision on every platform
+        platforms.forEach(platform => this.handleCollision(platform));
+        spikes.forEach(spike => this.handleSpikeCollision(spike));
 
-        this.checkGoal(goal)
-        for(let platform of platforms) {
-            if(this.checkCollision(platform)) {
-                this.handleCollision(platform);
-                break;
-            }
-
+        this.handleGoalCollision(goal);
+        if(this.handleGoalCollision(goal)) {
+            this.game.nextLevel();
         }
     }
 

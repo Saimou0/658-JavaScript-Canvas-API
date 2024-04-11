@@ -41,8 +41,8 @@ export class InputHandler {
             console.log(this.keys);
         });
 
-        window.addEventListener('keyup', e => {
-            switch (e.key) {
+        window.addEventListener('keyup', event => {
+            switch (event.key) {
                 case KEY.W:
                     this.keys.splice(this.keys.indexOf(KEY.W), 1);
                     break;

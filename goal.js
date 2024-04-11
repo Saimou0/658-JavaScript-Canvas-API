@@ -26,8 +26,4 @@ export class Goal {
         context.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    update() {
-
-    }
-
 }
