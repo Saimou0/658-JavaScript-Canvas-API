@@ -45,7 +45,6 @@ export class Spike {
         if(this.shouldMove) {
             if(this.moveDirection === 1) {
                 this.y += this.velocity.y;
-                // this.x += this.velocity.x;
     
                 if(this.y - this.originalY >= 450) {
                     this.velocity.y = -this.speed;
@@ -70,46 +69,4 @@ export class Spike {
         }
     }
 
-    // spikeMovement()  {
-
-    //     // Movement left
-    //     if(this.moveDirection === 0) {
-    //         if(this.x == this.endPosition) {
-    //             if(this.x < this.originalX) {
-    //                 this.x += this.speed;
-    //             }
-    //         }
-
-    //         if(this.x > this.endPosition) {
-    //             this.x -= this.speed;
-    //             console.log(this.x, this.endPosition, this.startpos, this.originalX)
-    //         }
-    //     } 
-        
-    //     // Movement right
-    //     if(this.moveDirection === 1) {
-    //         if(this.x == this.endPosition) {
-    //             this.endPosition = this.originalX;
-    //             this.moveDirection = 0;
-    //         }
-
-    //         if(this.startpos < this.endPosition) {
-    //             this.x += this.speed;
-    //         }
-    //     }
-
-    //     // Movement up
-    //     if(this.moveDirection === 2) {
-    //         if(this.startpos > this.endPosition) {
-    //             this.y -= this.speed;
-    //         }
-    //     }
-
-    //     // Movement down
-    //     if(this.moveDirection === 3) {
-    //         if(this.startpos < this.endPosition) {
-    //             this.y += this.speed;
-    //         }
-    //     }
-    // }
 }

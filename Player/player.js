@@ -33,7 +33,6 @@ export class Player {
         this.x += this.vx * deltaTime;
 
         this.gameAreaCollision();
-        // this.handleCollision(platforms);
 
         this.verticalMovement(input, platforms);
         
@@ -135,8 +134,8 @@ export class Player {
                 }
             } else {
                 if(this.y + this.height - platform.y < platform.y + platform.height - this.y) {
-                    this.y = platform.y - this.height;
                     this.vy = 0;
+                    this.y = platform.y - this.height;
                 } else {
                     this.y = platform.y + platform.height;   
                 }

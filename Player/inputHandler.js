@@ -11,7 +11,7 @@ export class InputHandler {
         this.keys = [];
 
         window.addEventListener('keydown', event => {
-            switch (event.key) {
+            switch (event.key.toLowerCase()) {
                 case KEY.W:
                     if(this.keys.indexOf(KEY.W) === -1) {
                         this.keys.push(KEY.W);
@@ -42,7 +42,7 @@ export class InputHandler {
         });
 
         window.addEventListener('keyup', event => {
-            switch (event.key) {
+            switch (event.key.toLowerCase()) {
                 case KEY.W:
                     this.keys.splice(this.keys.indexOf(KEY.W), 1);
                     break;
