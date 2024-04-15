@@ -14,16 +14,29 @@ export class Goal {
         context.lineTo(this.x + this.width, this.y + this.height);
         context.lineTo(this.x, this.y + this.height);
         context.lineTo(this.x, this.y);
-        context.strokeStyle = 'white';
+
+        context.strokeStyle = "white";
         context.lineWidth = 2;
+        
+        context.shadowBlur = 20;
+        context.shadowColor = 'green';
+
         context.stroke();
     }
 
     draw(context) {
         this.traceOutline(context);
 
-        context.fillStyle = 'green';
+        let gradient = context.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
+        gradient.addColorStop(0.2, 'green');
+        gradient.addColorStop(0.5, '#74f78c');
+        gradient.addColorStop(1, 'green');
+
+        context.fillStyle = gradient;
         context.fillRect(this.x, this.y, this.width, this.height);
+
+        context.shadowBlur = 0;
+        context.shadowColor = 'transparent';
     }
 
 }

@@ -4,9 +4,6 @@ export class Player {
         this.width = 74;
         this.height = 96;
 
-        // Original width and height 
-        // Width: 74, Height: 96
-
         this.x = 0;
         this.y = game.height - this.height - this.game.groundMargin;
         this.vx = 0;
@@ -17,11 +14,13 @@ export class Player {
 
         this.deathCount = 0;
 
-        this.image = document.getElementById('player');
+        this.image = new Image();
+        this.image.src = 'assets/Character.png';
+        this.direction;
     }
 
     movement(input, deltaTime, platforms) {
-        // Horisontaalli liike
+        // Horizontal movement
         if(input.includes('d')) {
             this.vx = this.maxSpeed;
         } else if (input.includes('a')) {
@@ -161,17 +160,33 @@ export class Player {
     }
     
     draw(context) {
-        context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+        // Save the current context
+        context.save();
+        // Put the pen on the player's position
+        context.translate(this.x, this.y);
 
-        // Piirtää pelaajan rajat
-        // context.beginPath();
-        // context.rect(this.x, this.y, this.width, this.height);
-        // context.lineWidth = 2;
-        // context.strokeStyle = 'red';
-        // context.stroke();
+        // Flip the context
+        if(this.direction === 'left') {
+            context.scale(-1, 1);
+        }
+
+        // Draw the player facing the correct way using a ternary operator
+        context.drawImage(this.image, this.direction === 'left' ? -this.width : 0, 0, this.width, this.height);
+        // Restore the context to the previous saved state
+        context.restore();
+
+        // This way we can draw the player facing any direction without affecting other parts of the game.
     }
 
     update(input, deltaTime, platforms, goal, spikes) {
+
+        // Change the direction varible based on the player velocity
+        if(this.vx < 0) {
+            this.direction = 'left';
+        } else if(this.vx > 0) {
+            this.direction = 'right';
+        }
+
         this.movement(input, deltaTime, platforms);
         // Handle the collision on every platform
         platforms.forEach(platform => this.handleCollision(platform));
