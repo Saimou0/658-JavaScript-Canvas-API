@@ -20,16 +20,23 @@ window.addEventListener('load', function() {
             this.InputHandler = new InputHandler();
             this.player = new Player(this);
 
-            this.level = 2;
+            this.level = 0;
             this.levels = [
                 // LEVEL 1
                 {
                     platforms: [
                         // Create obstacles
                         new Platform(this, 0.3, 0.715, 0.07, 0.226),
+                        new Platform(this, 0.305, 0.722, 0.06, 0.212),
+
                         new Platform(this,  0.45, 0.059, 0.1, 0.65),
+                        new Platform(this,  0.455, 0.066, 0.09, 0.634),
+
                         new Platform(this,  0.67, 0.214, 0.1, 0.5),
+                        new Platform(this,  0.675, 0.224, 0.09, 0.48),
+
                         new Platform(this, 0.63, 0.715, 0.07, 0.226),
+                        new Platform(this, 0.635, 0.724, 0.06, 0.21),
                         
                         // Create ledges
                         new Platform(this, 0.551, 0.50, 0.05, 0.02),
@@ -39,7 +46,7 @@ window.addEventListener('load', function() {
                         // Create spikes
                         new Spike(this, 0.45, 0.929, 0.1, 0.01),
                         new Spike(this, 0.8, 0.929, 0.1, 0.01),
-                        new Spike(this, 0.45, 0.28, 0.001, 0.4),
+                        new Spike(this, 0.45, 0.065, 0.004, 0.635),
                         new Spike(this, 0.098, 0.929, 0.12, 0.01),
                     ],
                     // Create goal
@@ -50,8 +57,13 @@ window.addEventListener('load', function() {
                     platforms: [
                         // Create obstacles
                         new Platform(this, 0.15, 0.715, 0.07, 0.226),
+                        new Platform(this, 0.1543, 0.724, 0.061, 0.209),
+
                         new Platform(this,  0.3, 0.059, 0.1, 0.65),
+                        new Platform(this,  0.305, 0.068, 0.09, 0.63),
+
                         new Platform(this,  0.53, 0.214, 0.383, 0.727),
+                        new Platform(this,  0.5365, 0.226, 0.369, 0.7),
                         
                         // Create ledges
                         new Platform(this, 0.479, 0.5, 0.05, 0.02),
@@ -75,26 +87,32 @@ window.addEventListener('load', function() {
                         // X, Y, Width, Height
                         // Create obstacles
                         new Platform(this, 0.1, 0.715, 0.07, 0.226),
+                        new Platform(this, 0.105, 0.722, 0.06, 0.211),
+
                         new Platform(this,  0.171, 0.715, 0.75, 0.05),
+                        new Platform(this,  0.176, 0.723, 0.7399, 0.034),
+
+                        new Platform(this, 0.9011, 0.25, 0.02, 0.4635),
+                        new Platform(this, 0.906, 0.256, 0.01, 0.451),
 
                         new Platform(this,  0.016, 0.5, 0.8, 0.05),
-                        new Platform(this, 0.9014, 0.2498, 0.02, 0.464),
-                        new Platform(this,  0.101, 0.25, 0.8, 0.05),
-                        // new Platform(this,  0.53, 0.214, 0.383, 0.727),
+                        new Platform(this,  0.021, 0.511, 0.79, 0.027),
                         
-                        // Create ledges
-                        // new Platform(this, 0.479, 0.5, 0.05, 0.02),
-                        // new Platform(this, 0.479, 0.7, 0.05, 0.02),
-                        // new Platform(this, 0.479, 0.3, 0.05, 0.02),
+                        new Platform(this,  0.1004, 0.25, 0.8, 0.05),
+                        new Platform(this,  0.107, 0.2615, 0.7855, 0.027),
+
                     ],
                     spikes: [
                         // Create spikes
-                        new Spike(this, 0.2, 0.268, 0.06, 0.01, true, 1, 15, 400),
-                        new Spike(this, 0.4, 0.268, 0.06, 0.01, true, 1, 15, 400),
-                        new Spike(this, 0.6, 0.268, 0.06, 0.01, true, 1, 15, 400),
-                        // new Spike(this, 0.8, 0.25, 0.1, 0.01, true, 0, 2, 100),
-                        // new Spike(this, 0.8, 0.7, 0.1, 0.01, true, 0, 1, 100),
-                        // new Spike(this, 0.289, 0.929, 0.12, 0.01),
+                        // Vertically moving spikes
+                        new Spike(this, 0.25, 0.268, 0.06, 0.01, true, 1, 15, 400),
+                        new Spike(this, 0.45, 0.268, 0.06, 0.01, true, 1, 15, 400),
+                        new Spike(this, 0.65, 0.268, 0.06, 0.01, true, 1, 15, 400),
+                        // new Spike(this, 0.757, 0.268, 0.06, 0.01, true, 1, 15, 400),
+
+                        // Horizontally moving spikes
+                        new Spike(this, 0.1, 0.24, 0.06, 0.01, true, 0, 15, 950),
+                        new Spike(this, 0.1, 0.489, 0.06, 0.01, true, 0, 10, 840),
                     ],
                     // Create goal Original x: 0.171, To test x: 0.09
                     goal: new Goal(this, 0.171, 0.767, 0.01, 0.174)
@@ -140,11 +158,19 @@ window.addEventListener('load', function() {
         drawGameArea(context) {
             context.beginPath();
 
+            // Inner border
             context.moveTo(20, this.height - this.groundMargin); // vasen alakulma
             context.lineTo(this.width - this.sideMargin, this.height - this.groundMargin); // oikea alakulma
             context.lineTo(this.width - this.sideMargin, 50); // oikea yläkulma
             context.lineTo(20, 50); // vasen yläkulma
             context.lineTo(20, this.height-this.groundMargin); // vasen alakulma
+            
+            // Outer border
+            context.moveTo(10, this.height + 10 - this.groundMargin); // vasen alakulma
+            context.lineTo(this.width + 10 - this.sideMargin, this.height + 10 - this.groundMargin); // oikea alakulma
+            context.lineTo(this.width + 10 - this.sideMargin, 40); // oikea yläkulma
+            context.lineTo(10, 40); // vasen yläkulma
+            context.lineTo(10, this.height + 10 - this.groundMargin); // vasen alakulma
 
             // Set color and width
             context.strokeStyle = 'white';
@@ -163,9 +189,9 @@ window.addEventListener('load', function() {
             if(this.level === 0) {
                 context.font = '20px Arial';
                 context.fillStyle = 'white';
-                context.fillText("A <- Left", 110, 300);
-                context.fillText("D -> Right", 300, 300);
-                context.fillText("W = Jump", 200, 250);
+                context.fillText("A <- Vasemmalle", 110, 300);
+                context.fillText("D -> Oikealle", 300, 300);
+                context.fillText("W = Hyppää", 200, 250);
             }
         }
     }
@@ -201,6 +227,8 @@ window.addEventListener('load', function() {
 
     function gameOverScreen() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        game.drawGameArea(ctx);
         
         let gradient = ctx.createLinearGradient(0,0, canvas.width, 0);
         gradient.addColorStop("0", "red");
@@ -218,9 +246,9 @@ window.addEventListener('load', function() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        ctx.fillText('You Win', canvas.width / 2, canvas.height / 2 - 50);
+        ctx.fillText('Voitit', canvas.width / 2, canvas.height / 2 - 50);
         
-        ctx.fillText('Deaths: ' + game.player.deathCount, canvas.width / 2, canvas.height / 2 + 50);
+        ctx.fillText('Kuolemia: ' + game.player.deathCount, canvas.width / 2, canvas.height / 2 + 50);
     }
 
 });

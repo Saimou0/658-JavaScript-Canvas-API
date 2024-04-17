@@ -8,7 +8,7 @@ export class Player {
         this.y = game.height - this.height - this.game.groundMargin;
         this.vx = 0;
         this.vy = 0;
-        this.weight = 1;
+        this.gravity = 1;
         
         this.maxSpeed = 0.5;
 
@@ -19,7 +19,7 @@ export class Player {
         this.direction;
     }
 
-    movement(input, deltaTime, platforms) {
+    movement(input, deltaTime, platforms, spikes) {
         // Horizontal movement
         if(input.includes('d')) {
             this.vx = this.maxSpeed;
@@ -33,15 +33,20 @@ export class Player {
 
         this.gameAreaCollision();
 
+        
         this.verticalMovement(input, platforms);
         
+        this.vy += this.gravity;
+
         if(!this.onGround(platforms)) {
-            this.vy += this.weight;
             console.log("EI MAASSA " + this.vy);
         } else {
             this.vy = 0;
         }
         
+        platforms.forEach(platform => this.handleCollision(platform));
+        spikes.forEach(spikes => this.handleSpikeCollision(spikes));
+
     }
 
     verticalMovement(input, platforms) {
@@ -133,10 +138,10 @@ export class Player {
                 }
             } else {
                 if(this.y + this.height - platform.y < platform.y + platform.height - this.y) {
-                    this.vy = 0;
                     this.y = platform.y - this.height;
+                    this.vy = 0;
                 } else {
-                    this.y = platform.y + platform.height;   
+                    this.y = platform.y + platform.height;
                 }
             }
         }
@@ -187,10 +192,10 @@ export class Player {
             this.direction = 'right';
         }
 
-        this.movement(input, deltaTime, platforms);
+        this.movement(input, deltaTime, platforms, spikes);
         // Handle the collision on every platform
-        platforms.forEach(platform => this.handleCollision(platform));
-        spikes.forEach(spike => this.handleSpikeCollision(spike));
+        // platforms.forEach(platform => this.handleCollision(platform));
+        // spikes.forEach(spike => this.handleSpikeCollision(spike));
 
         this.handleGoalCollision(goal);
         if(this.handleGoalCollision(goal)) {
