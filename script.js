@@ -20,7 +20,7 @@ window.addEventListener('load', function() {
             this.InputHandler = new InputHandler();
             this.player = new Player(this);
 
-            this.level = 0;
+            this.level = 2;
             this.levels = [
                 // LEVEL 1
                 {
@@ -112,7 +112,9 @@ window.addEventListener('load', function() {
 
                         // Horizontally moving spikes
                         new Spike(this, 0.1, 0.24, 0.06, 0.01, true, 0, 15, 950),
-                        new Spike(this, 0.1, 0.489, 0.06, 0.01, true, 0, 10, 840),
+
+                        // uncomment to make the level harder
+                        // new Spike(this, 0.1, 0.489, 0.06, 0.01, true, 0, 10, 840),
                     ],
                     // Create goal Original x: 0.171, To test x: 0.09
                     goal: new Goal(this, 0.171, 0.767, 0.01, 0.174)
