@@ -20,7 +20,7 @@ window.addEventListener('load', function() {
             this.InputHandler = new InputHandler();
             this.player = new Player(this);
 
-            this.level = 2;
+            this.level = 0;
             this.levels = [
                 // LEVEL 1
                 {
