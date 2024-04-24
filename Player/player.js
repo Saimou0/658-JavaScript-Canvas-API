@@ -28,14 +28,11 @@ export class Player {
         } else {
             this.vx = 0;
         }
-
         this.x += this.vx * deltaTime;
 
         this.gameAreaCollision();
 
-        
-        this.verticalMovement(input, platforms);
-        
+        this.verticalMovement(input, platforms);        
         this.vy += this.gravity;
 
         if(!this.onGround(platforms)) {
@@ -56,8 +53,6 @@ export class Player {
                 if(this.vy === 0) {
                     this.vy -= 20;
                     this.y += this.vy;
-                    console.log("HYPPY " + this.vy);
-
                 }
             }
 
@@ -102,7 +97,6 @@ export class Player {
 
     onPlatform(platform) {
         if(this.y + this.height >= platform.y && this.y + this.height <= platform.y + platform.height && this.x + this.width > platform.x && this.x < platform.x + platform.width) {
-            console.log("On platform")
             if(this.maxOverlapAxis(platform) === 'y') {
                 return true;
             }
@@ -193,9 +187,6 @@ export class Player {
         }
 
         this.movement(input, deltaTime, platforms, spikes);
-        // Handle the collision on every platform
-        // platforms.forEach(platform => this.handleCollision(platform));
-        // spikes.forEach(spike => this.handleSpikeCollision(spike));
 
         this.handleGoalCollision(goal);
         if(this.handleGoalCollision(goal)) {

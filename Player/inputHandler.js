@@ -3,7 +3,6 @@ const KEY = {
     S: "s",
     A: "a",
     D: "d",
-    SPACE: " ",
 }
 
 export class InputHandler {
@@ -32,11 +31,6 @@ export class InputHandler {
                         this.keys.push(KEY.D);
                     }
                     break;
-                case KEY.SPACE:
-                    if(this.keys.indexOf(KEY.SPACE) === -1) {
-                        this.keys.push(KEY.SPACE);
-                    }
-                    break;
             }
             console.log(this.keys);
         });
@@ -54,9 +48,6 @@ export class InputHandler {
                     break;
                 case KEY.D:
                     this.keys.splice(this.keys.indexOf(KEY.D), 1);
-                    break;
-                case KEY.SPACE:
-                    this.keys.splice(this.keys.indexOf(KEY.SPACE), 1);
                     break;
             }
 

@@ -63,7 +63,6 @@ export class Spike {
                 if(this.y <= this.originalY) {
                     this.velocity.y = this.speed;
                 }
-                // console.log(this.y, this.originalY)
             } 
             // Movement x axis
             else {
@@ -80,37 +79,4 @@ export class Spike {
         }
     }
 
-    //TODO: Implement the Bezier curve to the spike movement
-    /* class Spike {
-    constructor(game, x, y, width, height, isMoving, speed, controlPoint, duration) {
-        this.game = game;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.isMoving = isMoving;
-        this.speed = speed;
-        this.controlPoint = controlPoint;
-        this.duration = duration;
-        this.startTime = Date.now();
-    }
-
-    update() {
-        if (this.isMoving) {
-            let t = (Date.now() - this.startTime) / this.duration;
-            if (t > 1) {
-                t = 1;
-                this.startTime = Date.now();
-            }
-
-            !COMMENT Calculate the position of the spike based on a quadratic Bezier curve
-            this.x = (1 - t) * (1 - t) * this.startX + 2 * (1 - t) * t * this.controlPoint + t * t * this.endX;
-            this.y = (1 - t) * (1 - t) * this.startY + 2 * (1 - t) * t * this.controlPoint + t * t * this.endY;
-        }
-    }
-
-    draw(context) {
-        !COMMENT Draw the spike
-    }
-    */
 }

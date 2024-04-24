@@ -219,7 +219,6 @@ window.addEventListener('load', function() {
 
             lastTime = currentTime;
         }
-        
         requestAnimationFrame(animate);
     }
 
@@ -227,7 +226,6 @@ window.addEventListener('load', function() {
 
     function gameOverScreen() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         game.drawGameArea(ctx);
         
         let gradient = ctx.createLinearGradient(0,0, canvas.width, 0);
@@ -247,7 +245,6 @@ window.addEventListener('load', function() {
         ctx.textBaseline = 'middle';
 
         ctx.fillText('Voitit', canvas.width / 2, canvas.height / 2 - 50);
-        
         ctx.fillText('Kuolemia: ' + game.player.deathCount, canvas.width / 2, canvas.height / 2 + 50);
     }
 
